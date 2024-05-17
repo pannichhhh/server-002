@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express()
+const port = 3000
 
 app.use(bodyParser.json());
 
@@ -24,8 +25,20 @@ app.get('/products/:id',(req,res) => {
 })
 
 app.put('/products/:id',(req,res) => {
-    const id = Number(req.params.id)
-    
+    const id = Number(req.params.id);
+    const products = req.body;
+    const index = products.findIndex(s => s.id === id);
+    res.json(products);
+
 })
 
-app.listen(3000, () => console.log('Sever Ready Server'))
+app.delete('/products/:id', () => {
+    const id = Number(req.params.id)
+    const index = products.findIndex(s => s.id === id);
+    products.splice(index,1);
+    res.json(products);
+})
+
+app.listen(port, () => {
+    console.log(`Server Listen ${port}`)
+} )
