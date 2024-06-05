@@ -1,44 +1,154 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express()
-const port = 3000
+const mysql = require('mysql2');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const port = 3000;
+
+dotenv.config();
+
+const app = express();
+
+
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+});
+
+/*
+db.connect(function(err) {
+    if(err) {
+        console.log("Error Conncetion");
+        //throw err;
+    }
+    console.log("-Database Server - 002 Connected-");
+});
+*/
 
 app.use(bodyParser.json());
+app.use(cors());
 
-const products = []
+/*
+// Get all products
+app.get('/products', (req, res) => {
+    const sql = 'SELECT * FROM products';
+    db.query(sql, (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while retrieving products.', error: err });
+        } else {
+            res.status(200).json(result);
+        }
+    });
+});
+*/
 
+app.get('/products', (req, res) => {
+    //const sql = 'SELECT * FROM mytb';
+    db.query(`SELECT * FROM mytb`, (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while retrieving products.', error: err });
+            console.log("FAIL REQUEST API : GET /productss");
+            console.log(err);
+        } else {
+            res.status(200).json(result);
+            console.log("REQUEST API : GET /productss");
+            console.log(result);
+        }
+    });
+});
+
+/*
+// Get product by id
+app.get('/products/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const sql = 'SELECT * FROM products WHERE id = ?';
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while retrieving product.', error: err });
+        } else {
+            if (result.length === 0) {
+                res.status(404).json({ message: 'Product not found.' });
+            } else {
+                res.status(200).json( result );
+            }
+        }
+    });
+});
+*/
+
+/*
+
+// Create product
 app.post('/products', (req, res) => {
-    products.push(req.body)
-    res.json(products);
+    const product = req.body;
+    const sql = 'INSERT INTO products (name, price, discount, review_count, image_url) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [product.name, product.price, product.discount, product.review_count, product.image_url], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while inserting product.', error: err });
+        } else {
+            res.status(201).json({ message: 'Product inserted successfully.' });
+        }
+    });
 });
 
-app.get('/products',(req,res) => {
-    products.push(req.bpdy)
-    res.json(products);
+app.post('/productss', (req, res) => {
+    const product = req.body;
+    const sql = 'INSERT INTO mytb (id,name,age) VALUES (?, ?, ?)';
+    db.query(sql, [product.name, product.price, product.discount, product.review_count, product.image_url], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while inserting product.', error: err });
+        } else {
+            res.status(201).json({ message: 'Product inserted successfully.' });
+        }
+    });
 });
 
-app.get('/products/:id',(req,res) => {
+*/
+
+/*
+app.put('/products/:id', (req, res) => {
     const id = Number(req.params.id);
-    const products = products.find(s => s.id === id);
-    res.json(products);
+    const product = req.body;
+    const sql = 'UPDATE products SET name = ?, price = ?, discount = ?, review_count = ?, image_url = ? WHERE id = ?';
+    db.query(sql, [product.name, product.price, product.discount, product.review_count, product.image_url, id], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while updating product.', error: err });
+        } else {
+            res.status(200).json({ message: 'Product updated successfully.' });
+        }
+    });
+});
 
-})
-
-app.put('/products/:id',(req,res) => {
+app.delete('/products/:id', (req, res) => {
     const id = Number(req.params.id);
-    const products = req.body;
-    const index = products.findIndex(s => s.id === id);
-    res.json(products);
+    const sql = 'DELETE FROM products WHERE id = ?';
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while deleting product.', error: err });
+        } else {
+            res.status(200).json({ message: 'Product deleted successfully.' });
+        }
+    });
+});
 
-})
+//search products
+app.get('/products/search/:keyword', (req, res) => {
+    const keyword = req.params.keyword;
+    const sql = 'SELECT * FROM products WHERE name LIKE ?';
+    db.query(sql, [`%${keyword}%`], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: 'Error occurred while retrieving products.', error: err });
+        } else {
+            res.status(200).json(result);
+        }
+    });
+});
 
-app.delete('/products/:id', () => {
-    const id = Number(req.params.id)
-    const index = products.findIndex(s => s.id === id);
-    products.splice(index,1);
-    res.json(products);
-})
+*/
 
 app.listen(port, () => {
-    console.log(`Server Listen ${port}`)
-} )
+    console.log(`Example app listening on port ${port}!`);
+});
