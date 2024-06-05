@@ -31,53 +31,42 @@ db.connect(function(err) {
 app.use(bodyParser.json());
 app.use(cors());
 
-/*
+
 // Get all products
 app.get('/products', (req, res) => {
-    const sql = 'SELECT * FROM products';
+    const sql = `SELECT * FROM mytb`
     db.query(sql, (err, result) => {
         if (err) {
             res.status(500).json({ message: 'Error occurred while retrieving products.', error: err });
-        } else {
-            res.status(200).json(result);
-        }
-    });
-});
-*/
-
-app.get('/products', (req, res) => {
-    //const sql = 'SELECT * FROM mytb';
-    db.query(`SELECT * FROM mytb`, (err, result) => {
-        if (err) {
-            res.status(500).json({ message: 'Error occurred while retrieving products.', error: err });
-            console.log("FAIL REQUEST API : GET /productss");
+            console.log("FAIL REQUEST API : GET /products");
             console.log(err);
         } else {
             res.status(200).json(result);
-            console.log("REQUEST API : GET /productss");
+            console.log("REQUEST API : GET /products");
             console.log(result);
         }
     });
 });
 
-/*
 // Get product by id
 app.get('/products/:id', (req, res) => {
     const id = Number(req.params.id);
-    const sql = 'SELECT * FROM products WHERE id = ?';
+    const sql = 'SELECT * FROM mytb WHERE id = ?';
     db.query(sql, [id], (err, result) => {
         if (err) {
             res.status(500).json({ message: 'Error occurred while retrieving product.', error: err });
+            console.log("FAIL REQUEST API : GET /products/id");
         } else {
             if (result.length === 0) {
                 res.status(404).json({ message: 'Product not found.' });
             } else {
                 res.status(200).json( result );
+                console.log("REQUEST API : GET /products/id");
             }
         }
     });
 });
-*/
+
 
 /*
 
