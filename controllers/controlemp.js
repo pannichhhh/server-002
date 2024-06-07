@@ -42,7 +42,6 @@ exports.getAllEmp = async (req, res) => {
 };
 
 /*
-
 /**
  * @swagger
  * /products/{id}:
@@ -98,27 +97,29 @@ exports.getAllEmp = async (req, res) => {
  * type: string
  * description: The product image URL
  
-exports.getProductById = async (req, res) => {
+*/ 
+
+// Get product by id
+exports.getEmpbyId = async (req, res) => {
     const id = Number(req.params.id);
-    const sql = 'SELECT * FROM products WHERE id = ?';
+    const sql = 'SELECT * FROM emp WHERE idEmp = ?';
     db.query(sql, [id], (err, result) => {
         if (err) {
-            res.status(500).json({ message: 'Error occurred while retrieving product.', error: err });
+            res.status(500).json({ message: 'Error occurred while retrieving Employee.', error: err });
+            console.log("FAIL REQUEST API : GET /emp/id");
         } else {
             if (result.length === 0) {
-                res.status(404).json({ message: 'Product not found.' });
+                res.status(404).json({ message: 'Employee ID is not found.' });
             } else {
-                res.status(200).json({ message: 'Product retrieved successfully.', data: result });
+                res.status(200).json( result );
+                console.log("REQUEST API : GET /emp/id");
             }
         }
     });
 };
 
-*/
-
-
 /*
-exports.insertProduct = async (req, res) => {
+exports.insertEmp = async (req, res) => {
     const product = req.body;
     const sql = 'INSERT INTO products (name, price, discount, review_count, image_url) VALUES (?, ?, ?, ?, ?)';
     db.query(sql, [product.name, product.price, product.discount, product.review_count, product.image_url], (err, result) => {
@@ -129,6 +130,8 @@ exports.insertProduct = async (req, res) => {
         }
     });
 };
+
+
 
 exports.updateProduct = async (req, res) => {
     const id = Number(req.params.id);
