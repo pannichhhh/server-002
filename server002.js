@@ -21,24 +21,6 @@ app.listen(port, () => {
 
 
 /*
-// Get product by id
-app.get('/emp/:id', (req, res) => {
-    const id = Number(req.params.id);
-    const sql = 'SELECT * FROM emp WHERE id = ?';
-    db.query(sql, [id], (err, result) => {
-        if (err) {
-            res.status(500).json({ message: 'Error occurred while retrieving Employee.', error: err });
-            console.log("FAIL REQUEST API : GET /emp/id");
-        } else {
-            if (result.length === 0) {
-                res.status(404).json({ message: 'Employee ID is not found.' });
-            } else {
-                res.status(200).json( result );
-                console.log("REQUEST API : GET /emp/id");
-            }
-        }
-    });
-});
 
 //search products
 app.get('/emp/search/:keyword', (req, res) => {
