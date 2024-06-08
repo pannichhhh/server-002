@@ -36,22 +36,6 @@ app.get('/emp/search/:keyword', (req, res) => {
     });
 });
 
-// Create product
-app.post('/emp', (req, res) => {
-    const emp = req.body;
-    const sql = 'INSERT INTO emp (name, age) VALUES (?, ?)';
-    db.query(sql, [emp.name, emp.age], (err, result) => {
-        if (err) {
-            res.status(500).json({ message: 'Error occurred while inserting Employee.', error: err });
-        } else {
-            res.status(201).json({ message: 'Employee inserted successfully.' });
-        }
-    });
-});
-
-*/
-
-/*
 app.put('/products/:id', (req, res) => {
     const id = Number(req.params.id);
     const product = req.body;
