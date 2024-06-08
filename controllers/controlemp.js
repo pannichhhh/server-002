@@ -99,7 +99,7 @@ exports.getAllEmp = async (req, res) => {
  
 */ 
 
-// Get product by id
+// Get Employee by id
 exports.getEmpbyId = async (req, res) => {
     const id = Number(req.params.id);
     const sql = 'SELECT * FROM emp WHERE idEmp = ?';
@@ -118,20 +118,24 @@ exports.getEmpbyId = async (req, res) => {
     });
 };
 
-/*
+
+// Create Insert Employee
 exports.insertEmp = async (req, res) => {
-    const product = req.body;
-    const sql = 'INSERT INTO products (name, price, discount, review_count, image_url) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [product.name, product.price, product.discount, product.review_count, product.image_url], (err, result) => {
+    const emp = req.body;
+    const sql = 'INSERT INTO emp (name, age) VALUES (?, ?)';
+    db.query(sql, [emp.name, emp.age], (err, result) => {
         if (err) {
-            res.status(500).json({ message: 'Error occurred while inserting product.', error: err });
+            res.status(500).json({ message: 'Error occurred while inserting Employee.', error: err });
+            console.log("FAIL REQUEST INSERT API : POST /emp");
         } else {
-            res.status(201).json({ message: 'Product inserted successfully.' });
+            res.status(201).json({ message: 'Employee inserted successfully.' });
+            console.log("REQUEST INSERT API : POST /emp");
         }
     });
 };
 
 
+/*
 
 exports.updateProduct = async (req, res) => {
     const id = Number(req.params.id);
