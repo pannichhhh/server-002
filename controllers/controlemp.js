@@ -5,25 +5,6 @@ const express = require('express');
 const app = express();
 //app.use('/docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
-/**
- * @swagger
- * /api/emp:
- *  get:
- *      summary: Get all Employee
- *      description: Get all Employee
- *      responses:
- *          200:
- *             description: A list of Employee
- * content:
- * application/json:
- * schema:
- * type: array
- * items:
- * $ref: '#/components/schemas/Employee'
- * 500:
- * description: Some error happened
- */
-
 exports.getAllEmp = async (req, res) => {
     const sql = `SELECT * FROM emp`
     db.query(sql, (err, result) => {
@@ -39,26 +20,6 @@ exports.getAllEmp = async (req, res) => {
     });
 };
 
-
-// Get Employee by id
-/**
- * @swagger
- * /api/emp/:id:
- *  get:
- *      summary: Get Employeev by ID
- *      description: Get Employeev by ID
- *      responses:
- *          200:
- *             description: A list of Employee
- * content:
- * application/json:
- * schema:
- * type: array
- * items:
- * $ref: '#/components/schemas/Employee'
- * 500:
- * description: Some error happened
- */
 exports.getEmpbyId = async (req, res) => {
     const id = Number(req.params.id);
     const sql = 'SELECT * FROM emp WHERE idEmp = ?';
@@ -78,24 +39,6 @@ exports.getEmpbyId = async (req, res) => {
 };
 
 // Create Insert Employee
-/**
- * @swagger
- * /api/emp:
- *  post:
- *      summary: Insert new Employee profile 
- *      description: Insert new Employee profile
- *      responses:
- *          200:
- *             description: Insert new Employee profile
- * content:
- * application/json:
- * schema:
- * type: array
- * items:
- * $ref: '#/components/schemas/Employee'
- * 500:
- * description: Some error happened
- */
 exports.insertEmp = async (req, res) => {
     const emp = req.body;
     const sql = 'INSERT INTO emp (name, age) VALUES (?, ?)';
