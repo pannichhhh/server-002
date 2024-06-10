@@ -1,31 +1,29 @@
 const db = require('../db');
-//const { swaggerspec, swaggerUi} = require('../swagger');
+//const { swaggerSpec, swaggerUi} = require('../swagger');
 const express = require('express');
 
 const app = express();
+//app.use('/docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
-//app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerspec));
-/*
 /**
  * @swagger
- * /products:
- * get:
- * summary: Get all products
- * description: Get all products
- * responses:
- * 200:
- * description: A list of products
+ * /api/emp:
+ *  get:
+ *      summary: Get all Employee
+ *      description: Get all Employee
+ *      responses:
+ *          200:
+ *             description: A list of Employee
  * content:
  * application/json:
  * schema:
  * type: array
  * items:
- * $ref: '#/components/schemas/Product'
+ * $ref: '#/components/schemas/Employee'
  * 500:
  * description: Some error happened
  */
 
-// Get all Employee
 exports.getAllEmp = async (req, res) => {
     const sql = `SELECT * FROM emp`
     db.query(sql, (err, result) => {
@@ -41,65 +39,26 @@ exports.getAllEmp = async (req, res) => {
     });
 };
 
-/*
+
+// Get Employee by id
 /**
  * @swagger
- * /products/{id}:
+ * /api/emp/:id:
  *  get:
- *     summary: Get a product by id
- *    description: Get a product by id
- *   parameters:
- *    - in: path
- *    name: id
- *   schema:
- *   type: integer
- *  required: true
- * description: Numeric ID of the product to get
- * responses:
- * 200:
- * description: A product object
+ *      summary: Get Employeev by ID
+ *      description: Get Employeev by ID
+ *      responses:
+ *          200:
+ *             description: A list of Employee
  * content:
  * application/json:
  * schema:
- * $ref: '#/components/schemas/Product'
- * 404:
- * description: The product was not found
+ * type: array
+ * items:
+ * $ref: '#/components/schemas/Employee'
  * 500:
  * description: Some error happened
- * components:
- * schemas:
- * Product:
- * type: object
- * required:
- * - id
- * - name
- * - price
- * - discount
- * - review_count
- * - image_url
- * properties:
- * id:
- * type: integer
- * description: The auto-generated id of the product
- * name:
- * type: string
- * description: The product name
- * price:
- * type: number
- * description: The product price
- * discount:
- * type: number
- * description: The product discount
- * review_count:
- * type: integer
- * description: The product review count
- * image_url:
- * type: string
- * description: The product image URL
- 
-*/ 
-
-// Get Employee by id
+ */
 exports.getEmpbyId = async (req, res) => {
     const id = Number(req.params.id);
     const sql = 'SELECT * FROM emp WHERE idEmp = ?';
@@ -118,8 +77,25 @@ exports.getEmpbyId = async (req, res) => {
     });
 };
 
-
 // Create Insert Employee
+/**
+ * @swagger
+ * /api/emp:
+ *  post:
+ *      summary: Insert new Employee profile 
+ *      description: Insert new Employee profile
+ *      responses:
+ *          200:
+ *             description: Insert new Employee profile
+ * content:
+ * application/json:
+ * schema:
+ * type: array
+ * items:
+ * $ref: '#/components/schemas/Employee'
+ * 500:
+ * description: Some error happened
+ */
 exports.insertEmp = async (req, res) => {
     const emp = req.body;
     const sql = 'INSERT INTO emp (name, age) VALUES (?, ?)';
