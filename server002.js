@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const EmpRouter = require('./routes/emp');
+const { swaggerSpec, swaggerUi} = require('./swagger');
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/api/emp', EmpRouter)
+app.use('/docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
 
 app.listen(port, () => {
